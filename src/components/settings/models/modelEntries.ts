@@ -93,11 +93,19 @@ export const useModelEntries = () => {
       );
     const rest = entries.filter((e) => !onDisk(e));
     const curated = rest.filter((e) => e.kind === "curated").sort(byFit);
+    // QVAC models are not in the transcribe.cpp catalog, so they would
+    // otherwise stay hidden until a search. Offer them with the visible picks.
+    const qvac = rest.filter((e) => e.id.startsWith("qvac/"));
     return {
       yours,
-      fits: curated.filter((e) => !facts.missing(e.model).length),
+      fits: [
+        ...qvac,
+        ...curated.filter((e) => !facts.missing(e.model).length),
+      ],
       partial: curated.filter((e) => facts.missing(e.model).length > 0),
-      untested: rest.filter((e) => e.kind !== "curated").sort(byFit),
+      untested: rest
+        .filter((e) => e.kind !== "curated" && !e.id.startsWith("qvac/"))
+        .sort(byFit),
     };
   }, [entries, infos, current, facts]);
 

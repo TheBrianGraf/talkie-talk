@@ -1062,6 +1062,7 @@ impl ModelManager {
         // only insert ids not already present) instead of showing as a bare cache
         // find. Additive — see `seed_catalog_models`.
         Self::seed_catalog_models(&mut available_models);
+        Self::seed_qvac_models(&mut available_models);
 
         // Auto-discover custom transcribe-cpp models (.bin / .gguf) in the models directory
         if let Err(e) = Self::discover_custom_transcribe_models(&models_dir, &mut available_models)
@@ -1131,6 +1132,45 @@ impl ModelManager {
             }
         }
         info!("Seeded {} catalog model(s) into the registry", added);
+    }
+
+    /// Offer QVAC TranscribePsy alongside the transcribe.cpp catalog. It is
+    /// downloaded like any other Hugging Face model, then transcribed by the
+    /// QVAC helper instead of transcribe-cpp.
+    fn seed_qvac_models(available_models: &mut HashMap<String, ModelInfo>) {
+        let id = crate::qvac::MODEL_ID.to_string();
+        if available_models.contains_key(&id) {
+            return;
+        }
+        available_models.insert(
+            id.clone(),
+            ModelInfo {
+                id,
+                name: "TranscribePsy 250M EU-sub".to_string(),
+                description: "QVAC on-device speech recognition for Dutch, English, French, German, Italian, Polish, Portuguese, and Spanish. Runs locally through the QVAC Parakeet engine. Batch transcription: text appears when you finish speaking.".to_string(),
+                filename: crate::qvac::FILENAME.to_string(),
+                source: ModelSource::HuggingFace {
+                    repo_id: crate::qvac::REPO_ID.to_string(),
+                    revision: "main".to_string(),
+                },
+                size_mb: 305,
+                is_downloaded: false,
+                is_downloading: false,
+                partial_size: 0,
+                accuracy_score: 0.9,
+                speed_score: 0.85,
+                supports_translation: false,
+                is_recommended: false,
+                supported_languages: crate::qvac::LANGUAGES
+                    .iter()
+                    .map(|language| (*language).to_string())
+                    .collect(),
+                supports_language_selection: true,
+                is_custom: false,
+                supports_streaming: false,
+                supports_language_detection: false,
+            },
+        );
     }
 
     /// Claim the single rescan slot. Returns a guard that releases it on drop,

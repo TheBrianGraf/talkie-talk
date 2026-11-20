@@ -8,10 +8,7 @@ import { arch, platform } from "@tauri-apps/plugin-os";
 import { ProgressBar } from "../shared";
 import { useSettings } from "../../hooks/useSettings";
 import { commands } from "../../bindings";
-import {
-  resolvePortableInstallerUrl,
-  PORTABLE_RELEASES_URL,
-} from "./portableInstaller";
+import { resolvePortableInstallerUrl } from "./portableInstaller";
 
 interface UpdateCheckerProps {
   className?: string;
@@ -27,9 +24,9 @@ const UpdateChecker: React.FC<UpdateCheckerProps> = ({ className = "" }) => {
   const [showUpToDate, setShowUpToDate] = useState(false);
   const [showPortableUpdateDialog, setShowPortableUpdateDialog] =
     useState(false);
-  const [portableInstallerUrl, setPortableInstallerUrl] = useState<string>(
-    PORTABLE_RELEASES_URL,
-  );
+  const [portableInstallerUrl, setPortableInstallerUrl] = useState<
+    string | null
+  >(null);
 
   const { settings, isLoading, updateChecksLocked } = useSettings();
   // Wait for the lock state too (null = not loaded yet), otherwise the first
@@ -202,9 +199,9 @@ const UpdateChecker: React.FC<UpdateCheckerProps> = ({ className = "" }) => {
   const isUpdateClickable =
     !isUpdateDisabled && (updateAvailable || (!isChecking && !showUpToDate));
 
-  // When no installer could be resolved for this target the button falls back to
-  // the releases index, so the dialog has to say "browse" rather than "download".
-  const hasDirectInstaller = portableInstallerUrl !== PORTABLE_RELEASES_URL;
+  // No installer URL means there is nothing to open. The dialog then only offers
+  // to close, rather than linking out to a releases page.
+  const hasDirectInstaller = portableInstallerUrl !== null;
 
   return (
     <>
@@ -226,17 +223,17 @@ const UpdateChecker: React.FC<UpdateCheckerProps> = ({ className = "" }) => {
               >
                 {t("common.close")}
               </button>
-              <button
-                className="px-3 py-1.5 text-sm rounded bg-logo-primary text-white hover:bg-logo-primary/80 transition-colors"
-                onClick={() => {
-                  openUrl(portableInstallerUrl);
-                  setShowPortableUpdateDialog(false);
-                }}
-              >
-                {hasDirectInstaller
-                  ? t("footer.portableUpdateButton")
-                  : t("footer.portableUpdateBrowseButton")}
-              </button>
+              {hasDirectInstaller && (
+                <button
+                  className="px-3 py-1.5 text-sm rounded bg-logo-primary text-white hover:bg-logo-primary/80 transition-colors"
+                  onClick={() => {
+                    openUrl(portableInstallerUrl);
+                    setShowPortableUpdateDialog(false);
+                  }}
+                >
+                  {t("footer.portableUpdateButton")}
+                </button>
+              )}
             </div>
           </div>
         </div>

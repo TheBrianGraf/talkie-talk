@@ -246,6 +246,9 @@ pub struct TranscriptionManager {
     /// The transcribe-cpp engine: owns the worker process, its model, and
     /// recovery from crashes and hangs.
     engine: EngineSupervisor,
+    /// QVAC TranscribePsy. A separate process, so its ggml does not collide
+    /// with the transcribe-cpp engine above.
+    qvac: Arc<crate::qvac::QvacClient>,
     model_manager: Arc<ModelManager>,
     app_handle: AppHandle,
     current_model_id: Arc<Mutex<Option<String>>>,
@@ -284,6 +287,7 @@ impl TranscriptionManager {
     pub fn new(app_handle: &AppHandle, model_manager: Arc<ModelManager>) -> Result<Self> {
         let manager = Self {
             engine: EngineSupervisor::new(!transcribe_gpu_disabled_for_host()),
+            qvac: Arc::new(crate::qvac::QvacClient::new()),
             model_manager,
             app_handle: app_handle.clone(),
             current_model_id: Arc::new(Mutex::new(None)),
@@ -377,8 +381,9 @@ impl TranscriptionManager {
 
     pub fn is_model_loaded(&self) -> bool {
         // A transcribe-cpp model stays loaded while it is busy, so a batch
-        // run or stream in progress never reads as "unloaded".
-        self.engine.loaded().is_some()
+        // run or stream in progress never reads as "unloaded". A QVAC model
+        // stays loaded in its own helper.
+        self.engine.loaded().is_some() || self.qvac.is_loaded()
     }
 
     /// Accelerator changes should not disturb the current transcription. Mark
@@ -466,6 +471,9 @@ impl TranscriptionManager {
     /// its load is queued behind this unload, so the unload can never affect
     /// it. Only the worker's exit is left to wait for.
     fn begin_unload(&self) -> Unloading {
+        if let Err(error) = self.qvac.unload() {
+            warn!("Failed to unload the QVAC model: {error:#}");
+        }
         let unloading = self.engine.unload();
         self.language_detector.unload();
         {
@@ -591,6 +599,63 @@ impl TranscriptionManager {
         {
             let mut current_model = self.current_model_id.lock().unwrap();
             *current_model = None;
+        }
+
+        if crate::qvac::is_qvac_model(model_id) {
+            // Drop the transcribe-cpp model first so both engines are not
+            // resident. They stay in separate processes either way.
+            self.engine.unload().wait();
+            return match self.qvac.load(&model_path) {
+                Ok(backend) => {
+                    self.model_manager.set_runtime_capabilities(
+                        model_id,
+                        false,
+                        false,
+                        false,
+                        crate::qvac::LANGUAGES
+                            .iter()
+                            .map(|language| (*language).to_string())
+                            .collect(),
+                    );
+                    {
+                        let mut current_model = self.current_model_id.lock().unwrap();
+                        *current_model = Some(model_id.to_string());
+                    }
+                    self.touch_activity();
+                    let _ = self.app_handle.emit(
+                        "model-state-changed",
+                        ModelStateEvent {
+                            event_type: "loading_completed".to_string(),
+                            model_id: Some(model_id.to_string()),
+                            model_name: Some(model_info.name.clone()),
+                            error: None,
+                        },
+                    );
+                    for source in [NoticeSource::Dictation, NoticeSource::Model] {
+                        for code in [NoticeCode::ModelLoadFailed, NoticeCode::NoModelSelected] {
+                            notices::clear_matching(&self.app_handle, source, Some(code));
+                        }
+                    }
+                    info!(
+                        "Loaded QVAC model '{}' on {} in {}ms",
+                        model_id,
+                        backend,
+                        load_start.elapsed().as_millis()
+                    );
+                    Ok(())
+                }
+                Err(error) => {
+                    let error_msg = error.to_string();
+                    emit_loading_failed(&error_msg);
+                    Err(error)
+                }
+            };
+        }
+
+        if self.qvac.is_loaded() {
+            if let Err(error) = self.qvac.unload() {
+                warn!("Failed to unload the QVAC model before loading {model_id}: {error:#}");
+            }
         }
 
         // The backend is chosen at load time. With an explicit
@@ -775,7 +840,10 @@ impl TranscriptionManager {
     /// diagnostics (e.g. confirming `--device-index` actually bound a GPU rather
     /// than falling back to CPU/auto); `None` when no model is loaded.
     pub fn current_backend(&self) -> Option<String> {
-        self.engine.loaded().map(|info| info.backend)
+        self.engine
+            .loaded()
+            .map(|info| info.backend)
+            .or_else(|| self.qvac.backend())
     }
 
     /// Whether a file job is queued or running, which holds the model.
@@ -1061,12 +1129,59 @@ impl TranscriptionManager {
     /// Decode a whole clip with the loaded model, loading it first if a load
     /// is under way.
     fn decode_batch(&self, audio: Vec<f32>) -> Result<RunOutcome> {
+        {
+            let mut is_loading = self.is_loading.lock().unwrap();
+            while *is_loading {
+                is_loading = self.loading_condvar.wait(is_loading).unwrap();
+            }
+        }
+        if self
+            .get_current_model()
+            .is_some_and(|model_id| crate::qvac::is_qvac_model(&model_id))
+        {
+            return self.decode_qvac(audio);
+        }
         // A cancel from here on (during the model-load wait or chunk planning
         // included) stops every run of this transcription.
         let mark = self.engine.cancel_mark();
         self.touch_activity();
         let batch = self.batch_context(&audio)?;
         self.transcribe_cpp(mark, batch, audio)
+    }
+
+    /// Batch transcription through the QVAC helper. EU-sub has no live
+    /// preview, so the recording is decoded after it finishes.
+    fn decode_qvac(&self, audio: Vec<f32>) -> Result<RunOutcome> {
+        if !self.qvac.is_loaded() {
+            return Err(anyhow::anyhow!(
+                "QVAC model is not loaded for transcription."
+            ));
+        }
+        self.touch_activity();
+        let settings = get_settings(&self.app_handle);
+        let (language_code, source) = qvac_language(&settings);
+        let text = self.qvac.transcribe(&audio)?;
+        let languages = crate::qvac::LANGUAGES
+            .iter()
+            .map(|language| (*language).to_string())
+            .collect();
+        Ok(RunOutcome {
+            setup: RunSetup {
+                run_options: RunOptions {
+                    language: Some(language_code.clone()),
+                    ..Default::default()
+                },
+                language: LanguageDecision {
+                    language: Some(language_code.clone()),
+                    source,
+                },
+                languages,
+                applied_language_hint: Some(language_code),
+                output_was_translated: false,
+            },
+            text,
+            model_detected_language: None,
+        })
     }
 
     /// Waits out any model load, then reads what a batch transcription of
@@ -1230,6 +1345,31 @@ impl TranscriptionManager {
                 transcript
             })
     }
+}
+
+/// The language post-processing should assume for a QVAC transcript.
+/// EU-sub does not take a language hint; this only drives filler-word removal.
+fn qvac_language(settings: &AppSettings) -> (String, LanguageSource) {
+    let base = |language: &str| {
+        language
+            .split(['-', '_'])
+            .next()
+            .unwrap_or(language)
+            .to_string()
+    };
+    let selected = base(&settings.selected_language);
+    if crate::qvac::LANGUAGES.contains(&selected.as_str()) {
+        return (selected, LanguageSource::Selected);
+    }
+    if let Some(spoken) = settings
+        .spoken_languages
+        .iter()
+        .map(|language| base(language))
+        .find(|code| crate::qvac::LANGUAGES.contains(&code.as_str()))
+    {
+        return (spoken, LanguageSource::Fallback);
+    }
+    ("en".to_string(), LanguageSource::Fallback)
 }
 
 /// What a batch transcription runs with, read once before its first run.
