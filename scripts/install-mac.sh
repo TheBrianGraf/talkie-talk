@@ -23,9 +23,12 @@ if [[ "$(uname -m)" != "arm64" ]]; then
   exit 1
 fi
 
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || echo "")
-REPO_ROOT="$SCRIPT_DIR/.."
-BUNDLE="$REPO_ROOT/src-tauri/target/aarch64-apple-darwin/release/bundle"
+# Empty when piped from curl, so the current folder is never mistaken for a checkout.
+SCRIPT_DIR=""
+if [[ -n "${BASH_SOURCE[0]:-}" && -f "${BASH_SOURCE[0]}" ]]; then
+  SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+fi
+BUNDLE="$SCRIPT_DIR/../src-tauri/target/aarch64-apple-darwin/release/bundle"
 MOUNT=""
 WORK=""
 

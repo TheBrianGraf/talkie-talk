@@ -11,11 +11,7 @@
 //! at the package's default quant, independently of recommendation ranking.
 //!
 //! Each entry is normalised into a [`ModelDescriptor`] — the same source-agnostic
-//! shape every other producer (HF discovery, on-disk scans, the legacy table)
-//! yields — so the catalog is "just another producer". Its explicit capabilities
-//! become a [`CapabilityProbe`] with confident `Some(..)` values; the runtime
-//! `GgufHeaderProber` is the same shape with `None` where a header omits a key,
-//! which is why the two are interchangeable (the catalog is a baked probe).
+//! shape every other producer yields.
 
 use std::collections::{BTreeSet, HashMap, HashSet};
 
@@ -23,7 +19,6 @@ use once_cell::sync::Lazy;
 use serde::Deserialize;
 
 use crate::managers::model::{default_quant_file, ModelDescriptor, ModelSource, QuantFile};
-use crate::managers::model_capabilities::{CapabilityProbe, Compatibility};
 
 /// Catalog schema this loader understands. The package bumps it on any
 /// breaking change; additive fields are ignored.
@@ -280,16 +275,6 @@ impl From<&CatalogModel> for ModelDescriptor {
             } else {
                 m.description.clone()
             },
-            caps: CapabilityProbe {
-                verdict: Compatibility::Compatible, // published by transcribe.cpp
-                display_name: None,
-                architecture: Some(m.family.clone()),
-                variant: None,
-                languages: Some(m.languages.clone()),
-                supports_streaming: Some(m.capabilities.streaming),
-                supports_translation: Some(m.capabilities.translate),
-                supports_language_detect: Some(m.capabilities.language_detection),
-            },
             files,
             default_quant: Some(m.quant.clone()),
             // ModelInfo / the UI bars use 0.0–1.0.
@@ -485,7 +470,6 @@ pub fn rank_of(model_id: &str) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::managers::model_capabilities::KNOWN_ARCHES;
 
     #[test]
     fn catalog_parses_and_offers_models() {
@@ -509,20 +493,6 @@ mod tests {
         assert!(detector.filename.ends_with(".gguf"));
         assert!(detector.labels.iter().any(|l| l == "en"));
         assert!(detector.labels.iter().any(|l| l == "iw"));
-    }
-
-    #[test]
-    fn only_transcription_models_are_loaded() {
-        // Language ID (ecapa_tdnn), VAD (silero_vad) and diarization
-        // (sortformer) models are published but produce no transcription text.
-        for arch in ["ecapa_tdnn", "silero_vad", "sortformer"] {
-            assert!(
-                CATALOG
-                    .iter()
-                    .all(|d| d.caps.architecture.as_deref() != Some(arch)),
-                "{arch} must not be in the transcription catalog"
-            );
-        }
     }
 
     #[test]
@@ -617,21 +587,6 @@ mod tests {
                 );
             }
         }
-    }
-
-    #[test]
-    fn catalog_architectures_are_known_to_capability_probe() {
-        let missing: BTreeSet<&str> = CATALOG
-            .iter()
-            .filter_map(|d| d.caps.architecture.as_deref())
-            .filter(|arch| !KNOWN_ARCHES.contains(arch))
-            .collect();
-
-        assert!(
-            missing.is_empty(),
-            "catalog architecture(s) missing from KNOWN_ARCHES: {:?}",
-            missing
-        );
     }
 
     #[test]

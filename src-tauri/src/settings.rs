@@ -6,7 +6,6 @@ use std::collections::HashMap;
 use tauri::AppHandle;
 use tauri_plugin_store::StoreExt;
 
-
 #[derive(Serialize, Debug, Clone, Copy, PartialEq, Eq, Type)]
 #[serde(rename_all = "lowercase")]
 pub enum LogLevel {
@@ -779,7 +778,6 @@ impl AppSettings {
         let (min, max) = LANGUAGE_DETECTION_WINDOW_SECS.into_inner();
         self.language_detection_window_secs.clamp(min, max) as usize * 16_000
     }
-
 }
 
 /// Startup entry point. Same load-or-create/salvage/migrate behavior as
@@ -813,7 +811,11 @@ pub fn get_settings(app: &AppHandle) -> AppSettings {
         }
 
         // The post-processing shortcut no longer exists in this build.
-        if settings.bindings.remove("transcribe_with_post_process").is_some() {
+        if settings
+            .bindings
+            .remove("transcribe_with_post_process")
+            .is_some()
+        {
             updated = true;
         }
 
