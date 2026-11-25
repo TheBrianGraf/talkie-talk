@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Install Talkie-Talk into /Applications on an Apple Silicon Mac.
 #
-#   ./scripts/install-mac.sh                 # use the build in this checkout (builds it first if needed)
+#   curl -fsSL https://raw.githubusercontent.com/TheBrianGraf/talkie-talk/talkie-talk/scripts/install-mac.sh | bash
+#                                            # download the latest release and install it
+#   ./scripts/install-mac.sh                 # use a build in this checkout, else download the latest release
 #   ./scripts/install-mac.sh path/to/Talkie-Talk.dmg   # or a .dmg / .app you were given
 #
 # INSTALL_DIR overrides the destination (default: /Applications, or
@@ -10,6 +12,7 @@
 set -euo pipefail
 
 APP_NAME="Talkie-Talk"
+REPO="TheBrianGraf/talkie-talk"
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
   echo "This installer is for macOS." >&2
@@ -20,12 +23,14 @@ if [[ "$(uname -m)" != "arm64" ]]; then
   exit 1
 fi
 
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || echo "")
 REPO_ROOT="$SCRIPT_DIR/.."
 BUNDLE="$REPO_ROOT/src-tauri/target/aarch64-apple-darwin/release/bundle"
 MOUNT=""
+WORK=""
 
 cleanup() {
+  [[ -n "$WORK" ]] && rm -rf "$WORK"
   if [[ -n "$MOUNT" ]]; then
     hdiutil detach "$MOUNT" -quiet || true
     MOUNT=""
@@ -37,22 +42,31 @@ find_first() { # dir pattern
   find "$1" -maxdepth 1 -name "$2" -print -quit 2>/dev/null || true
 }
 
+download_latest() {
+  WORK=$(mktemp -d)
+  echo "Finding the latest Talkie-Talk release..." >&2
+  local url
+  url=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
+    | grep -o '"browser_download_url": *"[^"]*\.dmg"' | head -1 | sed 's/.*"\(https[^"]*\)"/\1/')
+  [[ -n "$url" ]] || { echo "Could not find a .dmg in the latest release of ${REPO}." >&2; exit 1; }
+  echo "Downloading ${url##*/} (about 300 MB)..." >&2
+  curl -fL --progress-bar -o "$WORK/${url##*/}" "$url" >&2
+  echo "$WORK/${url##*/}"
+}
+
 resolve_source() {
   if [[ $# -ge 1 ]]; then
     [[ -e "$1" ]] || { echo "Not found: $1" >&2; exit 1; }
     echo "$1"
     return
   fi
-  local found
-  found=$(find_first "$SCRIPT_DIR" '*.dmg')
-  [[ -z "$found" ]] && found=$(find_first "$BUNDLE/macos" '*.app')
-  [[ -z "$found" ]] && found=$(find_first "$BUNDLE/dmg" '*.dmg')
-  if [[ -z "$found" && -x "$SCRIPT_DIR/build-mac.sh" ]]; then
-    echo "No build found, building Talkie-Talk first (this takes a while)..." >&2
-    "$SCRIPT_DIR/build-mac.sh" >&2
-    found=$(find_first "$BUNDLE/macos" '*.app')
+  local found=""
+  if [[ -n "$SCRIPT_DIR" ]]; then
+    found=$(find_first "$SCRIPT_DIR" '*.dmg')
+    [[ -z "$found" ]] && found=$(find_first "$BUNDLE/macos" '*.app')
+    [[ -z "$found" ]] && found=$(find_first "$BUNDLE/dmg" '*.dmg')
   fi
-  [[ -n "$found" ]] || { echo "Nothing to install. Pass a .dmg or .app." >&2; exit 1; }
+  [[ -z "$found" ]] && found=$(download_latest)
   echo "$found"
 }
 

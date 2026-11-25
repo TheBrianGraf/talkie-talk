@@ -13,15 +13,24 @@ Talkie-Talk is a fork of [Handy](https://github.com/cjpais/Handy) by CJ Pais (MI
 
 ## Install
 
+One command, no clone and no account needed. It downloads the latest release and
+installs it (to `/Applications`, or `~/Applications` if that is not writable):
+
 ```sh
-git clone <this repo> talkie-talk && cd talkie-talk
-./scripts/build-mac.sh      # builds the app and a .dmg (first build takes a while)
-./scripts/install-mac.sh    # copies Talkie-Talk.app into /Applications and opens it
+curl -fsSL https://raw.githubusercontent.com/TheBrianGraf/talkie-talk/talkie-talk/scripts/install-mac.sh | bash
 ```
 
-Or drag **Talkie-Talk** from the `.dmg` in `src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/`
-into Applications. If someone sends you the `.dmg`, `./scripts/install-mac.sh path/to/Talkie-Talk.dmg`
-also clears the download quarantine flag for you.
+Or download the `.dmg` from [Releases](https://github.com/TheBrianGraf/talkie-talk/releases)
+and drag Talkie-Talk into Applications. Because the app is not notarized, right-click it and
+choose Open the first time.
+
+## Build from source
+
+```sh
+git clone https://github.com/TheBrianGraf/talkie-talk && cd talkie-talk
+./scripts/build-mac.sh      # builds the app and a .dmg (first build takes a while)
+./scripts/install-mac.sh    # installs the build from this checkout
+```
 
 Build requirements: Rust (rustup), [Bun](https://bun.sh), CMake, Xcode Command Line Tools.
 
