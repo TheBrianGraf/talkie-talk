@@ -1,5 +1,5 @@
 /** The product name. Matches `productName` in `src-tauri/tauri.conf.json`. */
-export const APP_NAME = "Brian's fast transcription";
+export const APP_NAME = "Talkie-Talk";
 
 /** The app name as text in the wordmark color, wrapping onto two lines when narrow. */
 const AppWordmark = ({

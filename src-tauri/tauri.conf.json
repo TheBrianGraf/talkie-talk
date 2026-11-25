@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Brian's fast transcription",
-  "version": "0.10.1",
-  "identifier": "com.pais.handy",
+  "productName": "Talkie-Talk",
+  "version": "0.1.0",
+  "identifier": "app.talkietalk.mac",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
@@ -17,7 +17,9 @@
       "assetProtocol": {
         "enable": true,
         "scope": {
-          "allow": ["**"],
+          "allow": [
+            "**"
+          ],
           "requireLiteralLeadingDot": false
         }
       }
@@ -26,9 +28,16 @@
   "bundle": {
     "active": true,
     "createUpdaterArtifacts": false,
-    "targets": "all",
-    "resources": ["resources/**/*"],
-    "externalBin": ["binaries/handy-qvac"],
+    "targets": [
+      "app",
+      "dmg"
+    ],
+    "resources": [
+      "resources/**/*"
+    ],
+    "externalBin": [
+      "binaries/talkie-qvac"
+    ],
     "license": "MIT",
     "icon": [
       "icons/32x32.png",
@@ -38,54 +47,28 @@
       "icons/icon.ico"
     ],
     "macOS": {
-      "files": {},
       "hardenedRuntime": true,
-      "minimumSystemVersion": "10.15",
+      "minimumSystemVersion": "13.0",
       "signingIdentity": "-",
-      "entitlements": "Entitlements.plist"
-    },
-    "linux": {
-      "deb": {
-        "depends": [
-          "libgtk-layer-shell0",
-          "libopenblas0",
-          "libssl3t64 | libssl3"
-        ],
-        "files": {
-          "/usr/lib/Handy": "transcribe-libs"
-        }
-      },
-      "rpm": {
-        "depends": [
-          "libgtk-layer-shell.so.0()(64bit)",
-          "libopenblas.so.0()(64bit)"
-        ],
-        "compression": {
-          "type": "none"
+      "entitlements": "Entitlements.plist",
+      "dmg": {
+        "windowSize": {
+          "width": 560,
+          "height": 360
         },
-        "files": {
-          "/usr/lib/Handy": "transcribe-libs"
-        }
-      },
-      "appimage": {
-        "bundleMediaFramework": true,
-        "files": {
-          "/usr/lib": "transcribe-libs"
+        "appPosition": {
+          "x": 140,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 420,
+          "y": 170
         }
       }
     },
-    "windows": {
-      "signCommand": "trusted-signing-cli -e https://eus.codesigning.azure.net/ -a CJ-Signing -c cjpais-dev -d \"Brian's fast transcription\" %1",
-      "nsis": {
-        "template": "nsis/installer.nsi",
-        "installerIcon": "icons/icon.ico"
-      }
-    }
+    "category": "Productivity",
+    "shortDescription": "Private, on-device speech to text",
+    "copyright": "Talkie-Talk. Based on Handy (MIT)."
   },
-  "plugins": {
-    "updater": {
-      "pubkey": "",
-      "endpoints": []
-    }
-  }
+  "plugins": {}
 }

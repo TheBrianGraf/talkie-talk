@@ -43,15 +43,14 @@ bun run format:backend    # cargo fmt only
 **Model Setup (Required for Development):**
 
 ```bash
-mkdir -p src-tauri/resources/models
-curl -L -o src-tauri/resources/models/silero-vad-v6.2-F32.gguf https://huggingface.co/handy-computer/silero-vad-v6.2-gguf/resolve/main/silero-vad-v6.2-F32.gguf
+# scripts/build-mac.sh fetches the VAD and QVAC models into src-tauri/resources/models
 ```
 
 For detailed platform-specific build setup, see [BUILD.md](BUILD.md).
 
 ## Architecture Overview
 
-Handy is a cross-platform desktop speech-to-text application built with Tauri 2.x (Rust backend + React/TypeScript frontend).
+Talkie-Talk is a macOS (Apple Silicon) speech-to-text app forked from Handy, built with Tauri 2.x (Rust backend + React/TypeScript frontend). It is local-only: the single model is QVAC TranscribePsy, run by the `talkie-qvac` helper process (`src-tauri/src/qvac.rs`, `src-tauri/qvac-helper`). There are no cloud providers, post-processing LLMs, or updaters. Build with `scripts/build-mac.sh`, install with `scripts/install-mac.sh`.
 
 ### Backend Structure (src-tauri/src/)
 

@@ -1061,17 +1061,10 @@ impl ModelManager {
         // already in the HF cache dedups onto its richer catalog entry (the scans
         // only insert ids not already present) instead of showing as a bare cache
         // find. Additive — see `seed_catalog_models`.
-        Self::seed_catalog_models(&mut available_models);
+        // Talkie-Talk only offers its on-device QVAC model, so the transcribe.cpp
+        // catalog and any models found on disk are not registered.
         Self::seed_qvac_models(&mut available_models);
-
-        // Auto-discover custom transcribe-cpp models (.bin / .gguf) in the models directory
-        if let Err(e) = Self::discover_custom_transcribe_models(&models_dir, &mut available_models)
-        {
-            warn!("Failed to discover custom models: {}", e);
-        }
-
-        // Auto-discover transcribe-cpp GGUF models already in the shared HF cache.
-        Self::discover_hf_cache_models(&mut available_models);
+        Self::retain_qvac_only(&mut available_models);
 
         let manager = Self {
             app_handle: app_handle.clone(),
@@ -1132,6 +1125,11 @@ impl ModelManager {
             }
         }
         info!("Seeded {} catalog model(s) into the registry", added);
+    }
+
+    /// Drop everything but the QVAC models: Talkie-Talk runs only those.
+    fn retain_qvac_only(available_models: &mut HashMap<String, ModelInfo>) {
+        available_models.retain(|id, _| crate::qvac::is_qvac_model(id));
     }
 
     /// Offer QVAC TranscribePsy alongside the transcribe.cpp catalog. It is
@@ -1210,10 +1208,8 @@ impl ModelManager {
         // The discover_* helpers are purely additive (they skip ids already in
         // the map), so the snapshot ends up as {current} ∪ {newly-found}.
         let mut snapshot = self.available_models.lock().unwrap().clone();
-        if let Err(e) = Self::discover_custom_transcribe_models(&self.models_dir, &mut snapshot) {
-            warn!("Rescan: failed to discover custom models: {}", e);
-        }
-        Self::discover_hf_cache_models(&mut snapshot);
+        Self::seed_qvac_models(&mut snapshot);
+        Self::retain_qvac_only(&mut snapshot);
 
         // Merge only the genuinely-new ids back into the live registry. `or_insert`
         // leaves every existing entry exactly as it was.
@@ -1281,7 +1277,7 @@ impl ModelManager {
 
     fn migrate_bundled_models(&self) -> Result<()> {
         // Check for bundled models and copy them to user directory
-        let bundled_models = ["ggml-small.bin"]; // Add other bundled models here if any
+        let bundled_models = [crate::qvac::FILENAME];
 
         for filename in &bundled_models {
             let bundled_path = self.app_handle.path().resolve(

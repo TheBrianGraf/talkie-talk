@@ -12,8 +12,6 @@ import { SettingsGroup } from "../../ui/SettingsGroup";
 import { AlwaysOnMicrophone } from "../AlwaysOnMicrophone";
 import { SoundPicker } from "../SoundPicker";
 import { ClamshellMicrophoneSelector } from "../ClamshellMicrophoneSelector";
-import { UpdateChecksToggle } from "../UpdateChecksToggle";
-import { WhatsNewPreview } from "./WhatsNewPreview";
 import { KeyboardDiagnostic } from "./KeyboardDiagnostic";
 import { DebugRun, OnboardingPreview } from "./OnboardingPreview";
 import type { OnboardingStep } from "../../onboarding/onboardingStore";
@@ -35,7 +33,6 @@ export const DebugSettings: React.FC<DebugSettingsProps> = ({
     <div className="max-w-3xl w-full mx-auto space-y-6">
       <SettingsGroup title={t("settings.debug.title")}>
         <LogLevelSelector grouped={true} />
-        <WhatsNewPreview descriptionMode="tooltip" grouped={true} />
         <OnboardingPreview
           onPreview={onPreviewOnboarding}
           descriptionMode="tooltip"
@@ -53,7 +50,6 @@ export const DebugSettings: React.FC<DebugSettingsProps> = ({
           descriptionMode="tooltip"
           grouped={true}
         />
-        <UpdateChecksToggle descriptionMode="tooltip" grouped={true} />
         <SoundPicker
           label={t("settings.debug.soundTheme.label")}
           description={t("settings.debug.soundTheme.description")}

@@ -1,5 +1,5 @@
 import type { TFunction } from "i18next";
-import { catalog } from "@handy-computer/models";
+import { CURATED_ASR } from "@/lib/models/catalog";
 import type { ModelInfo } from "@/bindings";
 import { repoIdOf } from "@/lib/models/retired";
 import {
@@ -21,9 +21,7 @@ const quantOf = (filename: string): string | null => {
 };
 
 const CATALOG_BY_REPO = new Map(
-  catalog.models
-    .filter((m) => m.role === "asr")
-    .map((m) => [m.repository, m] as const),
+  CURATED_ASR.map((m) => [m.repository, m] as const),
 );
 
 /** An app model as the table shows it, joined to its catalog entry by repo. */

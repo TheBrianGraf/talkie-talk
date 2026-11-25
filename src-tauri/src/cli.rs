@@ -2,7 +2,7 @@ use clap::Parser;
 use std::path::PathBuf;
 
 #[derive(Parser, Debug, Clone, Default)]
-#[command(name = "handy", about = "Brian's fast transcription - Speech to Text")]
+#[command(name = "talkie-talk", about = "Talkie-Talk - private, on-device speech to text")]
 pub struct CliArgs {
     /// Start with the main window hidden
     #[arg(long)]
@@ -15,10 +15,6 @@ pub struct CliArgs {
     /// Toggle transcription on/off (sent to running instance)
     #[arg(long)]
     pub toggle_transcription: bool,
-
-    /// Toggle transcription with post-processing on/off (sent to running instance)
-    #[arg(long)]
-    pub toggle_post_process: bool,
 
     /// Cancel the current operation (sent to running instance)
     #[arg(long)]

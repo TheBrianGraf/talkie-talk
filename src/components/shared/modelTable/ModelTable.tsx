@@ -94,6 +94,8 @@ interface ModelTableProps {
   focusOnMount?: boolean;
   /** TEMPORARY: Settings' thinner edge until the Settings redesign; remove with it. */
   thinEdge?: boolean;
+  /** One model on offer: no search or filters. */
+  hideSearch?: boolean;
 }
 
 /** The searchable, sectioned model list shared by onboarding's Show all and the Models page. */
@@ -108,6 +110,7 @@ export const ModelTable: React.FC<ModelTableProps> = ({
   onEscape,
   focusOnMount = false,
   thinEdge = false,
+  hideSearch = false,
 }) => {
   const { t } = useTranslation();
   const [highlighted, setHighlighted] = useState<string | null>(null);
@@ -268,47 +271,49 @@ export const ModelTable: React.FC<ModelTableProps> = ({
         }`}
       >
         {/* The magnifier and input align with the marks and names columns. */}
-        <div className="flex-none border-b border-line px-[6px]">
-          <div className="flex h-[46px] items-center gap-[4px] ps-[14px] pe-[4px]">
-            <label className="flex h-full min-w-0 flex-1 cursor-text items-center gap-[10px]">
-              <span className="grid w-[18px] shrink-0 place-items-center text-ink-3">
-                <Search size={15} aria-hidden="true" />
-              </span>
-              {/* No clear button: Escape clears. */}
-              <input
-                ref={searchRef}
-                type="search"
-                value={filters.query}
-                placeholder={t("modelTable.search")}
-                aria-label={t("modelTable.search")}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setFilters((f) => ({ ...f, query: value }));
-                  setHighlighted(null);
-                  if (listRef.current) listRef.current.scrollTop = 0;
-                }}
-                onKeyDown={(e) => {
-                  if (isComposingKeyEvent(e.nativeEvent)) return;
-                  const d =
-                    e.key === "ArrowDown" ? 1 : e.key === "ArrowUp" ? -1 : 0;
-                  if (d) {
-                    e.preventDefault();
-                    step(d);
-                  } else if (e.key === "Enter" && highlighted) {
-                    e.preventDefault();
-                    press();
-                  }
-                }}
-                className="h-full min-w-0 flex-1 bg-transparent text-body text-text outline-none placeholder:text-ink-3 [&::-webkit-search-cancel-button]:appearance-none"
+        {!hideSearch && (
+          <div className="flex-none border-b border-line px-[6px]">
+            <div className="flex h-[46px] items-center gap-[4px] ps-[14px] pe-[4px]">
+              <label className="flex h-full min-w-0 flex-1 cursor-text items-center gap-[10px]">
+                <span className="grid w-[18px] shrink-0 place-items-center text-ink-3">
+                  <Search size={15} aria-hidden="true" />
+                </span>
+                {/* No clear button: Escape clears. */}
+                <input
+                  ref={searchRef}
+                  type="search"
+                  value={filters.query}
+                  placeholder={t("modelTable.search")}
+                  aria-label={t("modelTable.search")}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setFilters((f) => ({ ...f, query: value }));
+                    setHighlighted(null);
+                    if (listRef.current) listRef.current.scrollTop = 0;
+                  }}
+                  onKeyDown={(e) => {
+                    if (isComposingKeyEvent(e.nativeEvent)) return;
+                    const d =
+                      e.key === "ArrowDown" ? 1 : e.key === "ArrowUp" ? -1 : 0;
+                    if (d) {
+                      e.preventDefault();
+                      step(d);
+                    } else if (e.key === "Enter" && highlighted) {
+                      e.preventDefault();
+                      press();
+                    }
+                  }}
+                  className="h-full min-w-0 flex-1 bg-transparent text-body text-text outline-none placeholder:text-ink-3 [&::-webkit-search-cancel-button]:appearance-none"
+                />
+              </label>
+              <span
+                aria-hidden="true"
+                className="me-[2px] h-[16px] w-px shrink-0 bg-line"
               />
-            </label>
-            <span
-              aria-hidden="true"
-              className="me-[2px] h-[16px] w-px shrink-0 bg-line"
-            />
-            {CAPABILITY_KEYS.map(filter)}
+              {CAPABILITY_KEYS.map(filter)}
+            </div>
           </div>
-        </div>
+        )}
         {!empty && (
           // Heads sit outside the list so rows only clip at the list's edge. The
           // fade starts 1px up so no row sliver shows at fractional pixels.

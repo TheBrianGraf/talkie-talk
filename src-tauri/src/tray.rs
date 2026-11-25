@@ -218,7 +218,7 @@ pub fn get_icon_path(theme: AppTheme, state: TrayIconState, badge: bool) -> &'st
         return match theme {
             AppTheme::Dark => "resources/tray_idle_warning.png",
             AppTheme::Light => "resources/tray_idle_warning_dark.png",
-            AppTheme::Colored => "resources/handy_warning.png",
+            AppTheme::Colored => "resources/talkie_warning.png",
         };
     }
     match (theme, state) {
@@ -231,7 +231,7 @@ pub fn get_icon_path(theme: AppTheme, state: TrayIconState, badge: bool) -> &'st
         (AppTheme::Light, TrayIconState::Recording) => "resources/tray_recording_dark.png",
         (AppTheme::Light, TrayIconState::Transcribing) => "resources/tray_transcribing_dark.png",
         // Colored theme uses pink icons (for Linux)
-        (AppTheme::Colored, TrayIconState::Idle) => "resources/handy.png",
+        (AppTheme::Colored, TrayIconState::Idle) => "resources/talkie.png",
         (AppTheme::Colored, TrayIconState::Recording) => "resources/recording.png",
         (AppTheme::Colored, TrayIconState::Transcribing) => "resources/transcribing.png",
     }
@@ -617,11 +617,11 @@ pub fn tray_tooltip() -> String {
 fn version_label() -> String {
     if cfg!(debug_assertions) {
         format!(
-            "Brian's fast transcription v{} (Dev)",
+            "Talkie-Talk v{} (Dev)",
             env!("CARGO_PKG_VERSION")
         )
     } else {
-        format!("Brian's fast transcription v{}", env!("CARGO_PKG_VERSION"))
+        format!("Talkie-Talk v{}", env!("CARGO_PKG_VERSION"))
     }
 }
 
@@ -966,7 +966,7 @@ mod tests {
     fn build_entry(transcription: &str, post_processed: Option<&str>) -> HistoryEntry {
         HistoryEntry {
             id: 1,
-            file_name: "handy-1.wav".to_string(),
+            file_name: "talkie-1.wav".to_string(),
             timestamp: 0,
             saved: false,
             title: "Recording".to_string(),

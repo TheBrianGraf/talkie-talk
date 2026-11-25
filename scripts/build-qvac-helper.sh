@@ -1,6 +1,6 @@
 #!/bin/sh
 # Build the Metal-enabled QVAC Parakeet helper and copy it where Tauri
-# expects an external binary (src-tauri/binaries/handy-qvac-<triple>).
+# expects an external binary (src-tauri/binaries/talkie-qvac-<triple>).
 set -eu
 
 ROOT="$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)"
@@ -8,8 +8,8 @@ SPEECH="$ROOT/third_party/qvac-fabric-speech.cpp"
 GGML="$SPEECH/ggml-src"
 PREFIX_GGML="$SPEECH/ggml-install"
 PREFIX_SPEECH="$SPEECH/speech-install"
-HELPER_BUILD="$ROOT/third_party/handy-qvac-build"
-DEST="$ROOT/src-tauri/binaries/handy-qvac-aarch64-apple-darwin"
+HELPER_BUILD="$ROOT/third_party/talkie-qvac-build"
+DEST="$ROOT/src-tauri/binaries/talkie-qvac-aarch64-apple-darwin"
 
 if [ ! -d "$GGML/.git" ]; then
     echo "missing $GGML; clone qvac-ext-ggml --branch speech there first" >&2
@@ -46,6 +46,6 @@ cmake -S "$ROOT/src-tauri/qvac-helper" -B "$HELPER_BUILD" \
 cmake --build "$HELPER_BUILD" --parallel
 
 mkdir -p "$ROOT/src-tauri/binaries"
-cp "$HELPER_BUILD/handy-qvac" "$DEST"
+cp "$HELPER_BUILD/talkie-qvac" "$DEST"
 chmod +x "$DEST"
 echo "helper: $DEST"

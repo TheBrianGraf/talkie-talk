@@ -1,11 +1,11 @@
 //! QVAC TranscribePsy, running in its own process.
 //!
-//! Handy upstream at the time of this integration:
+//! Handy upstream (the project this was forked from) at the time of this integration:
 //! `4807c21a7bb9a3bf2d52578a9b541e165b6bc8b9`
 //!
 //! transcribe-cpp and qvac-fabric-speech.cpp each link their own ggml.
-//! Loading both in the Handy process collides, so this client keeps a
-//! helper (`handy-qvac`) alive and sends it 16 kHz mono PCM over a Unix socket.
+//! Loading both in the app process collides, so this client keeps a
+//! helper (`talkie-qvac`) alive and sends it 16 kHz mono PCM over a Unix socket.
 
 use anyhow::{anyhow, Context, Result};
 use log::info;
@@ -34,11 +34,11 @@ const OP_QUIT: u32 = 4;
 const MAX_PAYLOAD: usize = 256 * 1024 * 1024;
 
 #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
-const HELPER_NAME: &str = "handy-qvac-aarch64-apple-darwin";
+const HELPER_NAME: &str = "talkie-qvac-aarch64-apple-darwin";
 #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
-const HELPER_NAME: &str = "handy-qvac-x86_64-apple-darwin";
+const HELPER_NAME: &str = "talkie-qvac-x86_64-apple-darwin";
 #[cfg(not(target_os = "macos"))]
-const HELPER_NAME: &str = "handy-qvac";
+const HELPER_NAME: &str = "talkie-qvac";
 
 pub fn is_qvac_model(model_id: &str) -> bool {
     model_id == MODEL_ID || model_id.contains("transcribepsy")
@@ -57,7 +57,7 @@ impl QvacClient {
     pub fn new() -> Self {
         Self {
             socket_path: std::env::temp_dir()
-                .join(format!("handy-qvac-{}.sock", std::process::id())),
+                .join(format!("talkie-qvac-{}.sock", std::process::id())),
             child: Mutex::new(None),
             stream: Mutex::new(None),
             logs: Mutex::new(None),
@@ -259,13 +259,13 @@ impl Drop for QvacClient {
 }
 
 fn helper_binary() -> Result<PathBuf> {
-    if let Ok(path) = std::env::var("HANDY_QVAC_HELPER") {
+    if let Ok(path) = std::env::var("TALKIE_QVAC_HELPER") {
         let path = PathBuf::from(path);
         if path.is_file() {
             return Ok(path);
         }
         return Err(anyhow!(
-            "HANDY_QVAC_HELPER is not a file: {}",
+            "TALKIE_QVAC_HELPER is not a file: {}",
             path.display()
         ));
     }
@@ -274,7 +274,7 @@ fn helper_binary() -> Result<PathBuf> {
     if let Ok(exe) = std::env::current_exe() {
         if let Some(dir) = exe.parent() {
             candidates.push(dir.join(HELPER_NAME));
-            candidates.push(dir.join("handy-qvac"));
+            candidates.push(dir.join("talkie-qvac"));
         }
     }
     candidates.push(
@@ -287,7 +287,7 @@ fn helper_binary() -> Result<PathBuf> {
         .find(|path| path.is_file())
         .with_context(|| {
             format!(
-                "QVAC helper ({HELPER_NAME}) was not found next to Brian's fast transcription. Run scripts/build-qvac-helper.sh"
+                "QVAC helper ({HELPER_NAME}) was not found next to Talkie-Talk. Run scripts/build-qvac-helper.sh"
             )
         })
 }

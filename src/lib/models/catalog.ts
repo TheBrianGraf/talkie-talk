@@ -16,10 +16,36 @@ export type { CatalogModel, MachineTier };
 
 const M = catalog.methodology;
 
-/** Curated speech models. */
-export const CURATED_ASR: CatalogModel[] = catalog.curatedModels.filter(
-  (m) => m.role === "asr",
-);
+/**
+ * The one model Talkie-Talk ships: QVAC TranscribePsy, run on-device. Its
+ * repo and languages match src-tauri/src/qvac.rs.
+ */
+export const QVAC_MODEL: CatalogModel = {
+  id: "TranscribePsy-250M-EU-sub",
+  name: "TranscribePsy 250M EU-sub",
+  description:
+    "QVAC on-device speech recognition for Dutch, English, French, German, Italian, Polish, Portuguese and Spanish.",
+  repository: "qvac/TranscribePsy-250M-EU-sub-gguf",
+  revision: "main",
+  previousRevisions: [],
+  license: "other",
+  family: "parakeet",
+  parameters: "250M",
+  languages: ["nl", "en", "fr", "de", "it", "pl", "pt", "es"],
+  capabilities: {
+    streaming: false,
+    translate: false,
+    languageDetection: false,
+    timestamps: false,
+  },
+  quant: "default",
+  role: "asr",
+  curated: true,
+  files: {},
+};
+
+/** The speech models on offer: just QVAC TranscribePsy. */
+export const CURATED_ASR: CatalogModel[] = [QVAC_MODEL];
 
 /** Measured word (or character) error for one language, in percent. */
 export const errorFor = (
@@ -68,10 +94,7 @@ export const geoMean = (xs: number[]) =>
 
 /** No curated model hears this language well (under 20% errors). */
 export const isWeakLanguage = (language: string): boolean => {
-  const errors = CURATED_ASR.filter((m) => modelMatchesLanguage(m, language))
-    .map((m) => errorFor(m, language))
-    .filter((e): e is number => e != null);
-  return !errors.length || Math.min(...errors) >= M.maxLanguageErrorPercent;
+  return !CURATED_ASR.some((m) => modelMatchesLanguage(m, language));
 };
 
 /* ---------------- the picks ---------------- */
@@ -85,28 +108,15 @@ interface ModelPick {
   role: PickRole;
 }
 
-// A model the package gives several roles shows the strongest: Recommended,
-// then Faster (true against Recommended), then More accurate.
-const PACKAGE_ROLES = [
-  ["best", "pick"],
-  ["fast", "faster"],
-  ["accurate", "accurate"],
-] as const;
-
 /** The package's picks for these languages, one per model, limited to `offered`. */
 export const picksFor = (
   languages: string[],
   offered: (model: CatalogModel) => boolean,
 ): ModelPick[] =>
-  catalog
-    .recommend(languages)
-    .filter((r) => offered(r.model))
-    .map((r) => {
-      const role = PACKAGE_ROLES.find(([p]) => r.roles.includes(p))?.[1];
-      return role ? { model: r.model, role } : null;
-    })
-    .filter((p): p is ModelPick => p !== null)
-    .sort((a, b) => ROLE_ORDER.indexOf(a.role) - ROLE_ORDER.indexOf(b.role));
+  offered(QVAC_MODEL) &&
+  languages.every((l) => modelMatchesLanguage(QVAC_MODEL, l))
+    ? [{ model: QVAC_MODEL, role: "pick" }]
+    : [];
 
 /** Usable models for these languages, ordered by the package's overall cost on this tier. */
 const rankFor = (

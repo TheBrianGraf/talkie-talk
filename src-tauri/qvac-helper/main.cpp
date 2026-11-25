@@ -248,12 +248,12 @@ int main(int argc, char** argv) {
         if (arg == "--socket" && i + 1 < argc) {
             socket_path = argv[++i];
         } else {
-            std::cerr << "usage: handy-qvac --socket <path>" << std::endl;
+            std::cerr << "usage: talkie-qvac --socket <path>" << std::endl;
             return 2;
         }
     }
     if (socket_path.empty()) {
-        std::cerr << "usage: handy-qvac --socket <path>" << std::endl;
+        std::cerr << "usage: talkie-qvac --socket <path>" << std::endl;
         return 2;
     }
 

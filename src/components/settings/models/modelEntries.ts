@@ -98,10 +98,7 @@ export const useModelEntries = () => {
     const qvac = rest.filter((e) => e.id.startsWith("qvac/"));
     return {
       yours,
-      fits: [
-        ...qvac,
-        ...curated.filter((e) => !facts.missing(e.model).length),
-      ],
+      fits: [...qvac, ...curated.filter((e) => !facts.missing(e.model).length)],
       partial: curated.filter((e) => facts.missing(e.model).length > 0),
       untested: rest
         .filter((e) => e.kind !== "curated" && !e.id.startsWith("qvac/"))

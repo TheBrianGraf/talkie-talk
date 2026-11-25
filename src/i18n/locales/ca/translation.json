@@ -25,7 +25,7 @@
     "customModelDescription": "Sense suport oficial",
     "migration": {
       "title": "Cal actualitzar els vostres models",
-      "description": "Brian's fast transcription ara utilitza un tipus de model més nou. Baixeu la versió nova per continuar transcrivint. Les versions antigues s'eliminaran.",
+      "description": "Talkie-Talk ara utilitza un tipus de model més nou. Baixeu la versió nova per continuar transcrivint. Les versions antigues s'eliminaran.",
       "replaces": "Substitueix {{name}}",
       "oldFormat": "Format antic",
       "failed": "Ha fallat la baixada",
@@ -62,11 +62,11 @@
     "permissions": {
       "microphone": {
         "name": "Micròfon",
-        "why": "Perquè el Brian's fast transcription us pugui sentir. L'àudio es converteix en text en aquest ordinador i no es puja mai enlloc."
+        "why": "Perquè el Talkie-Talk us pugui sentir. L'àudio es converteix en text en aquest ordinador i no es puja mai enlloc."
       },
       "accessibility": {
         "name": "Accessibilitat",
-        "why": "Perquè la drecera funcioni a totes les aplicacions i el Brian's fast transcription pugui escriure el text on tingueu el cursor."
+        "why": "Perquè la drecera funcioni a totes les aplicacions i el Talkie-Talk pugui escriure el text on tingueu el cursor."
       },
       "errors": {
         "checkFailed": "No s'han pogut comprovar els permisos. Torneu-ho a provar.",
@@ -80,12 +80,12 @@
       "openSettings": "Obre la configuració",
       "allowed": "Permès",
       "waiting": "En espera",
-      "turnOnMac": "Activeu el Brian's fast transcription a Configuració del Sistema i torneu aquí.",
+      "turnOnMac": "Activeu el Talkie-Talk a Configuració del Sistema i torneu aquí.",
       "turnOnWindows": "Activeu l'accés al micròfon a Configuració de Windows i torneu aquí.",
       "hintBoth": "Permeteu-los tots dos per continuar",
       "hintMicrophone": "Permeteu el micròfon per continuar",
       "welcomeBack": "Us donem la benvinguda de nou. Continuem on ho havíeu deixat.",
-      "relaunch": "La drecera no respon després d'això? <relaunch>Reinicieu el Brian's fast transcription</relaunch> i tornareu a aparèixer just aquí."
+      "relaunch": "La drecera no respon després d'això? <relaunch>Reinicieu el Talkie-Talk</relaunch> i tornareu a aparèixer just aquí."
     },
     "shell": {
       "back": "Enrere",
@@ -96,11 +96,11 @@
       "title": "Parleu en lloc d'escriure, a qualsevol aplicació",
       "subtitle": "Trieu les llengües en què dictareu",
       "languagesLabel": "Llengües",
-      "noMatch": "Cap llengua coincideix amb «{{query}}». Els models del Brian's fast transcription cobreixen unes 100 llengües; en trobareu més a la configuració.",
+      "noMatch": "Cap llengua coincideix amb «{{query}}». Els models del Talkie-Talk cobreixen unes 100 llengües; en trobareu més a la configuració.",
       "appLanguage": "Llengua de l'aplicació",
       "menusIn": "Menús en <b>{{language}}</b>",
       "chinese": {
-        "question": "Parleu {{languages}}. Quins caràcters ha d'escriure el Brian's fast transcription?",
+        "question": "Parleu {{languages}}. Quins caràcters ha d'escriure el Talkie-Talk?",
         "label": "Caràcters xinesos",
         "zh-Hans": "Simplificat",
         "zh-Hant": "Taiwan",
@@ -170,7 +170,7 @@
     },
     "try": {
       "title": "Proveu-ho!",
-      "subtitle": "El Brian's fast transcription és a la cantonada per guiar-vos",
+      "subtitle": "El Talkie-Talk és a la cantonada per guiar-vos",
       "noteLabel": "Nota",
       "placeholder": "Nota nova",
       "hold": "Manteniu premut <keys/> i parleu.",
@@ -198,14 +198,14 @@
     },
     "done": {
       "title": "Tot a punt",
-      "subMac": "El Brian's fast transcription ja és a la barra de menús. Manteniu premut o premeu <keys/> a qualsevol aplicació per parlar.",
-      "subTray": "El Brian's fast transcription ja és a la safata del sistema. Manteniu premut o premeu <keys/> a qualsevol aplicació per parlar.",
+      "subMac": "El Talkie-Talk ja és a la barra de menús. Manteniu premut o premeu <keys/> a qualsevol aplicació per parlar.",
+      "subTray": "El Talkie-Talk ja és a la safata del sistema. Manteniu premut o premeu <keys/> a qualsevol aplicació per parlar.",
       "hint": "Podeu canviar-ho més tard a la configuració",
       "highFiveLabel": "Xoqueu-la",
-      "atLogin": "Inicia el Brian's fast transcription quan entri a la sessió",
+      "atLogin": "Inicia el Talkie-Talk quan entri a la sessió",
       "finish": "Fet",
       "panel": {
-        "name": "Brian's fast transcription",
+        "name": "Talkie-Talk",
         "ready": "A punt",
         "languages": "Llengües",
         "model": "Model de veu",
@@ -330,7 +330,7 @@
     "general": {
       "title": "General",
       "shortcut": {
-        "title": "Dreceres del Brian's fast transcription",
+        "title": "Dreceres del Talkie-Talk",
         "description": "Configura les dreceres de teclat per iniciar l'enregistrament de veu per a la transcripció",
         "loading": "S'estan carregant les dreceres...",
         "none": "No hi ha cap drecera configurada",
@@ -372,7 +372,7 @@
       },
       "preferredLanguages": {
         "title": "Llengües preferides",
-        "description": "Les llengües que parleu. El Brian's fast transcription les utilitza per recomanar models.",
+        "description": "Les llengües que parleu. El Talkie-Talk les utilitza per recomanar models.",
         "noMatch": "Cap llengua coincideix amb «{{query}}»",
         "weak": "Cap model reconeix bé {{languages}} encara."
       },
@@ -399,17 +399,17 @@
         "fits": "Per a les vostres llengües",
         "untested": "Sense provar"
       },
-      "untestedNote": "No s'han provat amb el Brian's fast transcription. Poden ser més lents o cometre més errors.",
+      "untestedNote": "No s'han provat amb el Talkie-Talk. Poden ser més lents o cometre més errors.",
       "untestedHidden_one": "{{count}} model més no està ajustat per al dictat. Cerqueu-lo per trobar-lo.",
       "untestedHidden_other": "{{count}} models més no estan ajustats per al dictat. Cerqueu per trobar-ne algun.",
-      "emptyYours": "Encara no hi ha models. Trieu-ne un a sota: es baixa i el Brian's fast transcription l'utilitza.",
+      "emptyYours": "Encara no hi ha models. Trieu-ne un a sota: es baixa i el Talkie-Talk l'utilitza.",
       "showMore": "Mostra'n {{count}} més",
       "showFewer": "Mostra'n menys",
       "download": "Baixa i utilitza",
       "downloadingThenUse": "{{percent}} % de {{total}}, i després canvia",
       "loading": "S'està carregant…",
       "deleteAsk": "Voleu suprimir {{name}}? S'alliberen {{size}}.",
-      "deleteAskActive": "Voleu suprimir {{name}}? El Brian's fast transcription no podrà transcriure fins que en trieu un altre.",
+      "deleteAskActive": "Voleu suprimir {{name}}? El Talkie-Talk no podrà transcriure fins que en trieu un altre.",
       "cancel": "Cancel·la",
       "deleteModel": "Suprimeix {{name}}",
       "cancelDownload": "Atura la baixada de {{name}}",
@@ -423,14 +423,14 @@
         "marks": "? encara no s'ha mesurat. — no entén aquesta llengua."
       },
       "retiredNotice": {
-        "title": "Els models antics ja no funcionen amb Brian's fast transcription",
+        "title": "Els models antics ja no funcionen amb Talkie-Talk",
         "description": "Ocupen {{size}} a l'ordinador.",
         "delete": "Suprimeix els models",
         "deleteFailed": "No s'han pogut suprimir alguns models antics. Consulteu el registre per a més detalls."
       },
       "rescan": {
         "label": "Torna a cercar",
-        "tooltip": "Torna a cercar models afegits a la carpeta de models o a la memòria cau de Hugging Face des de fora del Brian's fast transcription"
+        "tooltip": "Torna a cercar models afegits a la carpeta de models o a la memòria cau de Hugging Face des de fora del Talkie-Talk"
       }
     },
     "languages": {
@@ -500,11 +500,11 @@
       },
       "autostart": {
         "label": "Inicia en entrar a la sessió",
-        "description": "Inicia automàticament el Brian's fast transcription quan entreu a la sessió de l'ordinador."
+        "description": "Inicia automàticament el Talkie-Talk quan entreu a la sessió de l'ordinador."
       },
       "showTrayIcon": {
         "label": "Mostra la icona a la safata",
-        "description": "Mostra la icona del Brian's fast transcription a la safata del sistema."
+        "description": "Mostra la icona del Talkie-Talk a la safata del sistema."
       },
       "overlay": {
         "style": {
@@ -741,7 +741,7 @@
       },
       "updateChecks": {
         "label": "Comproveu si hi ha actualitzacions",
-        "description": "Comprova automàticament si hi ha versions noves del Brian's fast transcription",
+        "description": "Comprova automàticament si hi ha versions noves del Talkie-Talk",
         "lockedDescription": "Desactivat per la configuració del sistema"
       },
       "whatsNewPreview": {
@@ -847,7 +847,7 @@
       },
       "keyboardDiagnostic": {
         "title": "Diagnòstic del teclat",
-        "description": "Comprova si els esdeveniments del teclat arriben al Brian's fast transcription. Només se'n registra el recompte, mai les tecles que premeu.",
+        "description": "Comprova si els esdeveniments del teclat arriben al Talkie-Talk. Només se'n registra el recompte, mai les tecles que premeu.",
         "run": "Executa un diagnòstic de 10 s",
         "running": "S'està escoltant… prema la drecera unes quantes vegades (p. ex., Option+Space)",
         "secureInputLabel": "Entrada segura",
@@ -861,7 +861,7 @@
         "mouse": "Ratolí",
         "verdictBlocked": "L'entrada segura bloca els esdeveniments de tecla. Les dreceres amb tecles no poden funcionar fins que es resolgui.",
         "verdictSuspicious": "Han arribat esdeveniments de modificadors, però no de tecles. Alguna cosa suprimeix les tecles tot i que l'entrada segura consta com a desactivada. Informeu-ne al GitHub.",
-        "verdictOk": "Els esdeveniments de tecla arriben al Brian's fast transcription amb normalitat.",
+        "verdictOk": "Els esdeveniments de tecla arriben al Talkie-Talk amb normalitat.",
         "verdictNoEvents": "No s'ha capturat cap esdeveniment. Heu premut alguna tecla durant la prova?",
         "failed": "El diagnòstic ha fallat: {{error}}"
       }
@@ -870,15 +870,15 @@
       "title": "Quant a",
       "version": {
         "title": "Versió",
-        "description": "Versió actual del Brian's fast transcription"
+        "description": "Versió actual del Talkie-Talk"
       },
       "whatsNewUpdates": {
         "label": "Mostra les novetats",
-        "description": "Mostra les notes de la versió després d'actualitzar el Brian's fast transcription"
+        "description": "Mostra les notes de la versió després d'actualitzar el Talkie-Talk"
       },
       "appDataDirectory": {
         "title": "Directori de dades de l'aplicació",
-        "description": "Ubicació on el Brian's fast transcription desa les dades"
+        "description": "Ubicació on el Talkie-Talk desa les dades"
       },
       "sourceCode": {
         "title": "Codi font",
@@ -887,7 +887,7 @@
       },
       "supportDevelopment": {
         "title": "Dona suport al desenvolupament",
-        "description": "Ajudeu-nos a continuar desenvolupant el Brian's fast transcription",
+        "description": "Ajudeu-nos a continuar desenvolupant el Talkie-Talk",
         "button": "Feu una donació"
       },
       "acknowledgments": {
@@ -895,7 +895,7 @@
         "ggml": {
           "title": "ggml",
           "description": "Biblioteca de tensors d'alt rendiment per a la inferència d'aprenentatge automàtic al dispositiu",
-          "details": "La transcripció local de veu a text del Brian's fast transcription es basa en el transcribe.cpp i el ggml. Gràcies a la gran feina de Georgi Gerganov i dels col·laboradors."
+          "details": "La transcripció local de veu a text del Talkie-Talk es basa en el transcribe.cpp i el ggml. Gràcies a la gran feina de Georgi Gerganov i dels col·laboradors."
         }
       }
     }
@@ -916,7 +916,7 @@
     "portableUpdateBrowseButton": "Obriu GitHub Releases"
   },
   "whatsNew": {
-    "title": "Novetats del Brian's fast transcription v{{version}}"
+    "title": "Novetats del Talkie-Talk v{{version}}"
   },
   "common": {
     "playbackPosition": "Posició de reproducció",
@@ -943,7 +943,7 @@
     "microphoneSilentTitle": "El micròfon està en silenci",
     "microphoneSilent": "El micròfon només ha enviat silenci. Comprova que no estigui silenciat o tria un altre micròfon a Configuració.",
     "recordingFailedTitle": "No s'ha pogut iniciar l'enregistrament",
-    "modelLoadFailed": "Brian's fast transcription no ha pogut carregar aquest model. Torna-ho a provar o tria'n un altre.",
+    "modelLoadFailed": "Talkie-Talk no ha pogut carregar aquest model. Torna-ho a provar o tria'n un altre.",
     "modelLoadFailedTitle": "No s'ha pogut carregar el model",
     "noModelSelected": "Baixa o tria un model a Configuració > Models.",
     "noModelSelectedTitle": "Cap model seleccionat",
@@ -951,7 +951,7 @@
     "pasteFailedTitle": "No s'ha pogut enganxar el text",
     "pasteFailed": "No s'ha pogut enganxar el text a l'aplicació activa.",
     "pasteBlockedElevatedTitle": "No es pot enganxar en apps admin",
-    "pasteBlockedElevated": "L'aplicació activa s'executa com a administrador, així que Brian's fast transcription no hi pot enganxar. Pots copiar la transcripció des d'Historial.",
+    "pasteBlockedElevated": "L'aplicació activa s'executa com a administrador, així que Talkie-Talk no hi pot enganxar. Pots copiar la transcripció des d'Historial.",
     "postProcessFailedTitle": "Enganxat sense postprocessament",
     "postProcessFailed": "El postprocessament no ha acabat, així que la transcripció s'ha enganxat tal qual.",
     "filePostProcessFailedTitle": "Transcrit sense postprocessament",
@@ -968,11 +968,11 @@
   },
   "appLanguage": {
     "title": "Llengua de l'aplicació",
-    "description": "Canvia la llengua de la interfície del Brian's fast transcription"
+    "description": "Canvia la llengua de la interfície del Talkie-Talk"
   },
   "theme": {
     "title": "Tema de l'aplicació",
-    "description": "Tria si el Brian's fast transcription segueix el tema del sistema o es manté en mode clar o fosc",
+    "description": "Tria si el Talkie-Talk segueix el tema del sistema o es manté en mode clar o fosc",
     "options": {
       "system": "Sistema",
       "light": "Clar",

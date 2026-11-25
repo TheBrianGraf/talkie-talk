@@ -25,7 +25,7 @@
     "customModelDescription": "Не се поддържа официално",
     "migration": {
       "title": "Моделите ви се нуждаят от обновяване",
-      "description": "Brian's fast transcription вече използва по-нов вид модели. Изтеглете новата версия, за да продължите да транскрибирате. Старите версии ще бъдат премахнати.",
+      "description": "Talkie-Talk вече използва по-нов вид модели. Изтеглете новата версия, за да продължите да транскрибирате. Старите версии ще бъдат премахнати.",
       "replaces": "Заменя {{name}}",
       "oldFormat": "Стар формат",
       "failed": "Изтеглянето е неуспешно",
@@ -62,11 +62,11 @@
     "permissions": {
       "microphone": {
         "name": "Микрофон",
-        "why": "За да може Brian's fast transcription да ви чува. Звукът се превръща в текст на този компютър и никога не се качва никъде."
+        "why": "За да може Talkie-Talk да ви чува. Звукът се превръща в текст на този компютър и никога не се качва никъде."
       },
       "accessibility": {
         "name": "Достъпност",
-        "why": "За да работи бързият ви клавиш във всяко приложение и Brian's fast transcription да въвежда текста там, където е курсорът ви."
+        "why": "За да работи бързият ви клавиш във всяко приложение и Talkie-Talk да въвежда текста там, където е курсорът ви."
       },
       "errors": {
         "checkFailed": "Проверката на разрешенията не бе успешна. Опитайте отново.",
@@ -80,12 +80,12 @@
       "openSettings": "Отвори настройките",
       "allowed": "Разрешено",
       "waiting": "Изчакване",
-      "turnOnMac": "Включете Brian's fast transcription в Системни настройки, после се върнете тук.",
+      "turnOnMac": "Включете Talkie-Talk в Системни настройки, после се върнете тук.",
       "turnOnWindows": "Включете достъпа до микрофона в Настройки на Windows, после се върнете тук.",
       "hintBoth": "Разрешете и двете, за да продължите",
       "hintMicrophone": "Разрешете микрофона, за да продължите",
       "welcomeBack": "Добре дошли отново. Продължаваме от където спряхте.",
-      "relaunch": "Бързият клавиш не реагира след това? <relaunch>Рестартирайте Brian's fast transcription</relaunch> и ще се озовете точно тук."
+      "relaunch": "Бързият клавиш не реагира след това? <relaunch>Рестартирайте Talkie-Talk</relaunch> и ще се озовете точно тук."
     },
     "shell": {
       "back": "Назад",
@@ -96,11 +96,11 @@
       "title": "Говорете вместо да пишете, във всяко приложение",
       "subtitle": "Изберете езиците, на които ще диктувате",
       "languagesLabel": "Езици",
-      "noMatch": "Няма език, който съвпада с „{{query}}“. Моделите на Brian's fast transcription покриват около 100 езика; още има в настройките.",
+      "noMatch": "Няма език, който съвпада с „{{query}}“. Моделите на Talkie-Talk покриват около 100 езика; още има в настройките.",
       "appLanguage": "Език на приложението",
       "menusIn": "Менюта на <b>{{language}}</b>",
       "chinese": {
-        "question": "Говорите {{languages}}. Кои йероглифи да пише Brian's fast transcription?",
+        "question": "Говорите {{languages}}. Кои йероглифи да пише Talkie-Talk?",
         "label": "Китайски йероглифи",
         "zh-Hans": "Опростени",
         "zh-Hant": "Тайван",
@@ -170,7 +170,7 @@
     },
     "try": {
       "title": "Пробвайте!",
-      "subtitle": "Brian's fast transcription е в ъгъла, за да ви води стъпка по стъпка",
+      "subtitle": "Talkie-Talk е в ъгъла, за да ви води стъпка по стъпка",
       "noteLabel": "Бележка",
       "placeholder": "Нова бележка",
       "hold": "Задръжте <keys/> и говорете.",
@@ -198,14 +198,14 @@
     },
     "done": {
       "title": "Всичко е готово",
-      "subMac": "Brian's fast transcription вече е в лентата с менюта. Задръжте или натиснете <keys/> във всяко приложение, за да говорите.",
-      "subTray": "Brian's fast transcription вече е в системната област. Задръжте или натиснете <keys/> във всяко приложение, за да говорите.",
+      "subMac": "Talkie-Talk вече е в лентата с менюта. Задръжте или натиснете <keys/> във всяко приложение, за да говорите.",
+      "subTray": "Talkie-Talk вече е в системната област. Задръжте или натиснете <keys/> във всяко приложение, за да говорите.",
       "hint": "Можете да промените това по-късно в Настройки",
       "highFiveLabel": "Дай пет",
-      "atLogin": "Стартирай Brian's fast transcription при влизане в системата",
+      "atLogin": "Стартирай Talkie-Talk при влизане в системата",
       "finish": "Готово",
       "panel": {
-        "name": "Brian's fast transcription",
+        "name": "Talkie-Talk",
         "ready": "Готов",
         "languages": "Езици",
         "model": "Модел за реч",
@@ -330,7 +330,7 @@
     "general": {
       "title": "Общи",
       "shortcut": {
-        "title": "Бързи клавиши на Brian's fast transcription",
+        "title": "Бързи клавиши на Talkie-Talk",
         "description": "Настройте клавишни комбинации за стартиране на запис за реч към текст",
         "loading": "Зареждане на бързите клавиши...",
         "none": "Няма настроени бързи клавиши",
@@ -372,7 +372,7 @@
       },
       "preferredLanguages": {
         "title": "Предпочитани езици",
-        "description": "Езиците, на които говорите. Brian's fast transcription ги използва, за да препоръчва модели.",
+        "description": "Езиците, на които говорите. Talkie-Talk ги използва, за да препоръчва модели.",
         "noMatch": "Няма език, който съвпада с „{{query}}“",
         "weak": "Все още няма модел, който разпознава добре {{languages}}."
       },
@@ -399,17 +399,17 @@
         "fits": "За вашите езици",
         "untested": "Нетествани"
       },
-      "untestedNote": "Не са тествани с Brian's fast transcription. Може да са по-бавни или да правят повече грешки.",
+      "untestedNote": "Не са тествани с Talkie-Talk. Може да са по-бавни или да правят повече грешки.",
       "untestedHidden_one": "{{count}} друг модел не е пригоден за диктуване. Потърсете, за да го намерите.",
       "untestedHidden_other": "{{count}} други модела не са пригодени за диктуване. Потърсете, за да намерите някой.",
-      "emptyYours": "Още няма модели. Изберете един по-долу: изтегля се и Brian's fast transcription го използва.",
+      "emptyYours": "Още няма модели. Изберете един по-долу: изтегля се и Talkie-Talk го използва.",
       "showMore": "Покажи още {{count}}",
       "showFewer": "Покажи по-малко",
       "download": "Изтегли и използвай",
       "downloadingThenUse": "{{percent}}% от {{total}}, после превключва",
       "loading": "Зареждане…",
       "deleteAsk": "Да се изтрие ли {{name}}? Освобождава {{size}}.",
-      "deleteAskActive": "Да се изтрие ли {{name}}? Brian's fast transcription не може да транскрибира, докато не изберете друг.",
+      "deleteAskActive": "Да се изтрие ли {{name}}? Talkie-Talk не може да транскрибира, докато не изберете друг.",
       "cancel": "Отказ",
       "deleteModel": "Изтрий {{name}}",
       "cancelDownload": "Спри изтеглянето на {{name}}",
@@ -423,14 +423,14 @@
         "marks": "? още не е измерено. — не разбира този език."
       },
       "retiredNotice": {
-        "title": "Старите модели вече не работят с Brian's fast transcription",
+        "title": "Старите модели вече не работят с Talkie-Talk",
         "description": "Заемат {{size}} на компютъра ви.",
         "delete": "Изтрий моделите",
         "deleteFailed": "Някои стари модели не можаха да бъдат изтрити. Проверете журнала за подробности."
       },
       "rescan": {
         "label": "Сканиране отново",
-        "tooltip": "Сканиране отново за модели, добавени в папката с модели или кеша на Hugging Face извън Brian's fast transcription"
+        "tooltip": "Сканиране отново за модели, добавени в папката с модели или кеша на Hugging Face извън Talkie-Talk"
       }
     },
     "languages": {
@@ -500,11 +500,11 @@
       },
       "autostart": {
         "label": "Стартиране със системата",
-        "description": "Автоматично стартиране на Brian's fast transcription при влизане в профила ви."
+        "description": "Автоматично стартиране на Talkie-Talk при влизане в профила ви."
       },
       "showTrayIcon": {
         "label": "Икона в системната област",
-        "description": "Показване на иконата на Brian's fast transcription в системната област."
+        "description": "Показване на иконата на Talkie-Talk в системната област."
       },
       "overlay": {
         "style": {
@@ -741,7 +741,7 @@
       },
       "updateChecks": {
         "label": "Проверка за актуализации",
-        "description": "Автоматична проверка за нови версии на Brian's fast transcription",
+        "description": "Автоматична проверка за нови версии на Talkie-Talk",
         "lockedDescription": "Деактивирано от системната конфигурация"
       },
       "whatsNewPreview": {
@@ -847,7 +847,7 @@
       },
       "keyboardDiagnostic": {
         "title": "Диагностика на клавиатурата",
-        "description": "Проверява дали клавиатурните събития достигат до Brian's fast transcription. Записва се само броят на събитията — никога кои клавиши натискате.",
+        "description": "Проверява дали клавиатурните събития достигат до Talkie-Talk. Записва се само броят на събитията — никога кои клавиши натискате.",
         "run": "Стартиране на 10-секундна диагностика",
         "running": "Слушане… натиснете бързия си клавиш няколко пъти (напр. Option+Space)",
         "secureInputLabel": "Secure Input",
@@ -861,7 +861,7 @@
         "mouse": "Мишка",
         "verdictBlocked": "Secure Input блокира клавишните събития — бързите клавиши с обикновен клавиш не могат да работят, докато това не бъде решено.",
         "verdictSuspicious": "Пристигнаха събития от модификатори, но нито едно клавишно събитие — нещо потиска клавишите, въпреки че Secure Input се отчита като изключен. Моля, съобщете за това в GitHub.",
-        "verdictOk": "Клавишните събития достигат до Brian's fast transcription нормално.",
+        "verdictOk": "Клавишните събития достигат до Talkie-Talk нормално.",
         "verdictNoEvents": "Не са уловени събития — натиснахте ли някакви клавиши по време на теста?",
         "failed": "Диагностиката е неуспешна: {{error}}"
       }
@@ -870,15 +870,15 @@
       "title": "За приложението",
       "version": {
         "title": "Версия",
-        "description": "Текуща версия на Brian's fast transcription"
+        "description": "Текуща версия на Talkie-Talk"
       },
       "whatsNewUpdates": {
         "label": "Показвай новостите",
-        "description": "Показвай бележки към изданието след актуализации на Brian's fast transcription"
+        "description": "Показвай бележки към изданието след актуализации на Talkie-Talk"
       },
       "appDataDirectory": {
         "title": "Папка с данни на приложението",
-        "description": "Мястото, където Brian's fast transcription съхранява данните си"
+        "description": "Мястото, където Talkie-Talk съхранява данните си"
       },
       "sourceCode": {
         "title": "Изходен код",
@@ -887,7 +887,7 @@
       },
       "supportDevelopment": {
         "title": "Подкрепете разработката",
-        "description": "Помогнете ни да продължим да развиваме Brian's fast transcription",
+        "description": "Помогнете ни да продължим да развиваме Talkie-Talk",
         "button": "Дарение"
       },
       "acknowledgments": {
@@ -895,7 +895,7 @@
         "ggml": {
           "title": "ggml",
           "description": "Високопроизводително изпълнение на автоматичния модел за разпознаване на реч Whisper на OpenAI",
-          "details": "Brian's fast transcription използва ggml за бързо локално реч-към-текст. Благодарности на Georgi Gerganov и сътрудниците за отличната работа."
+          "details": "Talkie-Talk използва ggml за бързо локално реч-към-текст. Благодарности на Georgi Gerganov и сътрудниците за отличната работа."
         }
       }
     }
@@ -916,7 +916,7 @@
     "portableUpdateBrowseButton": "Отвори GitHub Releases"
   },
   "whatsNew": {
-    "title": "Ново в Brian's fast transcription v{{version}}"
+    "title": "Ново в Talkie-Talk v{{version}}"
   },
   "common": {
     "playbackPosition": "Позиция на възпроизвеждане",
@@ -943,7 +943,7 @@
     "microphoneSilentTitle": "Микрофонът е безмълвен",
     "microphoneSilent": "Микрофонът изпраща само тишина. Проверете дали не е заглушен или изберете друг микрофон от Настройки.",
     "recordingFailedTitle": "Записът не стартира",
-    "modelLoadFailed": "Brian's fast transcription не можа да зареди този модел. Опитайте отново или изберете друг.",
+    "modelLoadFailed": "Talkie-Talk не можа да зареди този модел. Опитайте отново или изберете друг.",
     "modelLoadFailedTitle": "Моделът не се зареди",
     "noModelSelected": "Изтеглете или изберете модел от Настройки > Модели.",
     "noModelSelectedTitle": "Няма избран модел",
@@ -951,7 +951,7 @@
     "pasteFailedTitle": "Неуспешно поставяне на текст",
     "pasteFailed": "Текстът не можа да бъде поставен в активното приложение.",
     "pasteBlockedElevatedTitle": "Поставянето е блокирано",
-    "pasteBlockedElevated": "Активното приложение работи като администратор, затова Brian's fast transcription не може да поставя в него. Можете да копирате транскрипцията от История.",
+    "pasteBlockedElevated": "Активното приложение работи като администратор, затова Talkie-Talk не може да поставя в него. Можете да копирате транскрипцията от История.",
     "postProcessFailedTitle": "Поставено без постобработка",
     "postProcessFailed": "Постобработката не завърши, затова транскрипцията беше поставена без промени.",
     "filePostProcessFailedTitle": "Транскрибирано без постобработка",
@@ -968,11 +968,11 @@
   },
   "appLanguage": {
     "title": "Език на приложението",
-    "description": "Промяна на езика на интерфейса на Brian's fast transcription"
+    "description": "Промяна на езика на интерфейса на Talkie-Talk"
   },
   "theme": {
     "title": "Тема на приложението",
-    "description": "Изберете дали Brian's fast transcription да следва системната тема, или да остане светла или тъмна",
+    "description": "Изберете дали Talkie-Talk да следва системната тема, или да остане светла или тъмна",
     "options": {
       "system": "Системна",
       "light": "Светла",

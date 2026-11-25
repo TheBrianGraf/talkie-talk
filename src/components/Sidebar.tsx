@@ -1,15 +1,14 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Cog, FlaskConical, History, Info, Sparkles, Cpu } from "lucide-react";
+import { Cog, FlaskConical, History, Info, Mic, Cpu } from "lucide-react";
 import AppWordmark from "./shared/AppWordmark";
-import HandyHand from "./icons/HandyHand";
+import TalkieMark from "./icons/TalkieMark";
 import { useSettings } from "../hooks/useSettings";
 import {
   GeneralSettings,
   AdvancedSettings,
   HistorySettings,
   AboutSettings,
-  PostProcessingSettings,
   ModelsSettings,
 } from "./settings";
 
@@ -34,7 +33,7 @@ interface SectionConfig {
 export const SECTIONS_CONFIG = {
   general: {
     labelKey: "sidebar.general",
-    icon: HandyHand,
+    icon: Mic,
     component: GeneralSettings,
     enabled: () => true,
   },
@@ -55,12 +54,6 @@ export const SECTIONS_CONFIG = {
     icon: Cog,
     component: AdvancedSettings,
     enabled: () => true,
-  },
-  postprocessing: {
-    labelKey: "sidebar.postProcessing",
-    icon: Sparkles,
-    component: PostProcessingSettings,
-    enabled: (settings) => settings?.post_process_enabled ?? false,
   },
   debug: {
     labelKey: "sidebar.debug",
@@ -94,7 +87,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className="flex flex-col w-40 h-full border-e border-line items-center px-2">
-      <AppWordmark width={120} className="m-4" />
+      <div className="flex flex-col items-center gap-2 m-4">
+        <TalkieMark size={44} />
+        <AppWordmark width={120} />
+      </div>
       <div className="flex flex-col w-full items-center gap-1 pt-2 border-t border-line">
         {availableSections.map((section) => {
           const Icon = section.icon;
@@ -103,9 +99,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           return (
             <div
               key={section.id}
-              className={`flex gap-2 items-center p-2 w-full rounded-lg cursor-pointer transition-colors ${
+              className={`flex gap-2 items-center p-2 w-full rounded-xl cursor-pointer transition-colors ${
                 isActive
-                  ? "bg-logo-primary/80"
+                  ? "bg-logo-primary/85 font-semibold shadow-sm"
                   : "hover:bg-line hover:opacity-100 opacity-85"
               }`}
               onClick={() => onSectionChange(section.id)}
